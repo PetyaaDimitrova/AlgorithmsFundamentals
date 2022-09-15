@@ -7,7 +7,7 @@ public class EvaluateMathematicalExpression {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
-        String expression = "2 /2+3 * 4.75- -6";
+        String expression = "2 / (2 + 3) * 4.33 - -6";
 
         System.out.println(findSum(expression));
 
@@ -55,6 +55,14 @@ public class EvaluateMathematicalExpression {
                 double sum = findSum(expressionSubstring);
 
                 queue.offer(String.valueOf(sum));
+            } else if (ch.equals("-")) {
+                char nextSymbol = expression.charAt(i++);
+                if (nextSymbol == '-') {
+                    queue.offer("+");
+                } else if (nextSymbol == '+') {
+                    queue.offer("-");
+                }
+
             } else {
                 queue.offer(String.valueOf(expression.charAt(i)));
             }
@@ -74,87 +82,78 @@ public class EvaluateMathematicalExpression {
         while (!queue.isEmpty()) {
             char operator = queue.poll().charAt(0);
 
-            if (queue.peek().equals("-")) {
-                queue.poll();
-                if (operator == '+') {
-                    operator = '-';
-                } else if (operator == '-') {
-                    operator = '+';
 
-                } else {
-                    nextNumber = -1 * Double.parseDouble(queue.poll());
-                }
-
-            }
             nextNumber = Double.parseDouble(queue.poll());
             switch (operator) {
                 case '+':
                     if (checkForDivisionOrMultiplication(queue)) {
                         if (toDoAfter.isEmpty()) {
-                            toDoAfter.offer(String.valueOf(firstNumber));
-                            toDoAfter.offer(String.valueOf(operator));
+                            toDoAfter.push(String.valueOf(firstNumber));
+                        }
+                        toDoAfter.push(String.valueOf(operator));
+                        toDoAfter.push(String.valueOf(nextNumber));
+
+                        if (queue.peek().equals("*") || queue.peek().equals("/")) {
+                            firstNumber = Double.parseDouble(toDoAfter.peek());
+                        } else {
+                            toDoAfter.push(String.valueOf(nextNumber));
                         }
 
-                        toDoAfter.offer(String.valueOf(nextNumber));
-                        firstNumber = Double.parseDouble(toDoAfter.peek());
                     } else {
-
                         totalSum = firstNumber + nextNumber;
                         firstNumber = totalSum;
                         if (!toDoAfter.isEmpty()) {
-                            toDoAfter.pollLast();
-                            toDoAfter.offer(String.valueOf(totalSum));
+                            toDoAfter.pop();
                         }
+                        toDoAfter.push(String.valueOf(totalSum));
+
                     }
                     break;
                 case '-':
                     if (checkForDivisionOrMultiplication(queue)) {
                         if (toDoAfter.isEmpty()) {
-                            toDoAfter.offer(String.valueOf(firstNumber));
-                            toDoAfter.offer(String.valueOf(operator));
+                            toDoAfter.push(String.valueOf(firstNumber));
                         }
-                        toDoAfter.offer(String.valueOf(nextNumber));
-                        firstNumber = Double.parseDouble(toDoAfter.peek());
+                        toDoAfter.push(String.valueOf(operator));
+                        toDoAfter.push(String.valueOf(nextNumber));
+                        if (queue.peek().equals("*") || queue.peek().equals("/")) {
+                            firstNumber = Double.parseDouble(toDoAfter.peek());
+                        } else {
+                            toDoAfter.push(String.valueOf(nextNumber));
+                        }
+
                     } else {
                         totalSum = firstNumber - nextNumber;
                         firstNumber = totalSum;
                         if (!toDoAfter.isEmpty()) {
-                            toDoAfter.pollLast();
-                            toDoAfter.offer(String.valueOf(totalSum));
+                            toDoAfter.pop();
                         }
+                        toDoAfter.push(String.valueOf(totalSum));
                     }
                     break;
                 case '*':
                     if (!toDoAfter.isEmpty()) {
-                        firstNumber = Double.parseDouble(toDoAfter.pollLast());
+                        firstNumber = Double.parseDouble(toDoAfter.pop());
                         totalSum = firstNumber * nextNumber;
-                        toDoAfter.offer(String.valueOf(totalSum));
+                        toDoAfter.push(String.valueOf(totalSum));
                         firstNumber = totalSum;
-                    } else {
-                        totalSum = firstNumber * nextNumber;
-                        firstNumber = totalSum;
-                        toDoAfter.offer(String.valueOf(totalSum));
-                        if (!queue.isEmpty()) {
-                            toDoAfter.offer(queue.peek());
-                        }
-                    }
-                    count++;
+                    }else {
+                    totalSum = firstNumber *nextNumber;
+                    firstNumber = totalSum;
+                    toDoAfter.push(String.valueOf(totalSum));
+                }
                     break;
                 case '/':
                     if (!toDoAfter.isEmpty()) {
-                        firstNumber = Double.parseDouble(toDoAfter.pollLast());
+                        firstNumber = Double.parseDouble(toDoAfter.pop());
                         totalSum = firstNumber / nextNumber;
-                        toDoAfter.offer(String.valueOf(totalSum));
+                        toDoAfter.push(String.valueOf(totalSum));
                         firstNumber = totalSum;
                     } else {
                         totalSum = firstNumber / nextNumber;
                         firstNumber = totalSum;
-                        toDoAfter.offer(String.valueOf(totalSum));
-                        if (!queue.isEmpty()) {
-                            toDoAfter.offer(queue.peek());
-                        }
+                        toDoAfter.push(String.valueOf(totalSum));
                     }
-                    count++;
                     break;
             }
 
