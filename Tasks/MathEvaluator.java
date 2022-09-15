@@ -74,7 +74,7 @@ int nextIndex = i + 1;
             }
         }
         if (isNegativeNumber && queue.size() == 1) {
-            return -1 * Double.parseDouble(queue.pop());
+            return  Double.parseDouble(queue.pop());
         }
         return doTheOperations(queue);
     }
@@ -86,7 +86,7 @@ int nextIndex = i + 1;
 
         ArrayDeque<String> toDoAfter = new ArrayDeque<>();
 
-        int count = 0;
+
         double nextNumber = 0;
         while (!queue.isEmpty()) {
             char operator = queue.poll().charAt(0);
@@ -152,7 +152,7 @@ int nextIndex = i + 1;
                         toDoAfter.push(String.valueOf(totalSum));
                     }
                     break;
-                case '/':
+                case '/': // TODO if next number is zero
                     if (!toDoAfter.isEmpty()) {
                         firstNumber = Double.parseDouble(toDoAfter.pop());
                         totalSum = firstNumber / nextNumber;
