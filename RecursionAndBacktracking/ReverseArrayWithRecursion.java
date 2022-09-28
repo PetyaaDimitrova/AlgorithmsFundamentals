@@ -1,4 +1,4 @@
-package RecursionAndBacktrackingExercises;
+package RecursionAndBacktracking;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -12,8 +12,7 @@ public class ReverseArrayWithRecursion {
 
         reverse(numbers, 0, numbers.length - 1);
 
-        for (int n: numbers
-             ) {
+        for (int n: numbers) {
             System.out.print(n + " ");
         }
 
