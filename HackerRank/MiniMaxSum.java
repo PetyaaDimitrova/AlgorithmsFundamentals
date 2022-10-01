@@ -43,6 +43,6 @@ public class MiniMaxSum {
         for (int n: list) {
            sum+=n;
         }
-        return sum;
+        return sum; 
     }
 }
