@@ -1,4 +1,4 @@
-package com.company.HackerRank;
+
 
 import java.util.Scanner;
 
@@ -8,13 +8,13 @@ public class Factoriel {
 
         int n = Integer.parseInt(scan.nextLine());
 
-        System.out.println(findFactoriel(n));
+        System.out.println(findFactorial(n));
     }
 
-    private static long findFactoriel(int n) {
+    private static long findFactorial(int n) {
         if (n == 1) {
             return n;
         }
-        return (long) n * findFactoriel(n - 1);
+        return (long) n * findFactorial(n - 1);
     }
 }
