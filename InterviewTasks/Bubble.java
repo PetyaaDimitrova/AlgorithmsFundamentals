@@ -12,9 +12,8 @@ public class Bubble {
 
 
         for(int i = 0; i < numbers.length; i++){
-            int minNumber = numbers[i];
             for (int j = i+1; j <  numbers.length; j++) {
-                if(numbers[j]<minNumber){
+                if(numbers[j]<numbers[i]){
                     swap(numbers, i, j);
                 }
             }
