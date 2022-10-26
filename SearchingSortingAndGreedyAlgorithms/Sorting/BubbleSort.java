@@ -13,12 +13,14 @@ public class BubbleSort {
         for (int index = 0; index < numbers.length ; index++) {
             for (int current = index; current < numbers.length ; current++) {
                 if(numbers[current] < numbers[index]){
-                    swap(numbers, current, index);
+                    int temp = numbers[current];
+                    numbers[current] = numbers[index];
+                    numbers[index] = temp;
                 }
             }
         }
-        for (int n: numbers
-        ) {
+        for (int n:numbers
+             ) {
             System.out.print(n + " ");
         }
     }
